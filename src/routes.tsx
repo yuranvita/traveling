@@ -13,11 +13,26 @@ import SelectMapPosition from './pages/CreateAttractions/SelectMapPosition';
 import Header from './components/Header';
 import NavigationOnCard from './components/NavigationOnCard';
 import AttractionsCard from './pages/AttractionsCard';
- 
+import Login from './pages/Login';
+import SignUp from './pages/SignUp' ;
 export default function Routes(){
     return (
         <NavigationContainer>
             <Navigator screenOptions={{headerShown : false , cardStyle : {backgroundColor:'#f2f3f5'}}}>
+                <Screen
+                name="Login"
+                component={Login}
+                options={{
+                    headerShown : false,
+                }}
+                />
+                 <Screen
+                name="SignUp"
+                component={SignUp}
+                options={{
+                    headerShown : false,
+                }}
+                />
                 <Screen 
                 name="AttractionsMap"
                 component={AttractionsMap}

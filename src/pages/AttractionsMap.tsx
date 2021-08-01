@@ -6,6 +6,7 @@ import {Feather} from '@expo/vector-icons';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { RectButton } from 'react-native-gesture-handler';
 import api from '../services/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Attraction {
     id : number ;
@@ -15,15 +16,23 @@ interface Attraction {
 
 }
 
+
 export default function AttractionMap(){
    
   
+  const token = localStorage.getItem("token");
+  const tokenT = localStorage.getItem('token');
+
   const [attraction, setAttraction] = useState<Attraction[]>([]);
 
-
+  
+  console.log(token + "to aqui")
   async function feed() {
-    
-      api.get('/attractions').then(response =>{
+      api.get('/attractions' , {
+        headers : {
+          "authorization" : "Bearer "+token,
+        }
+      }).then(response =>{
           setAttraction(response.data);
       });
 

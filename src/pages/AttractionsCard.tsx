@@ -27,6 +27,7 @@ export default function AttractionCard(){
   const [loading , setLoading] = useState(false);
   const [feed, setFeed] = useState<Attraction[]>([]);
 
+  const token = localStorage.getItem("token");
 
   async function  loadPage(pageNumber  = page) {
 
@@ -36,7 +37,11 @@ export default function AttractionCard(){
 
     console.log(pageNumber);
     
-    const response = await api.get(`/cards/${page}`);
+    const response = await api.get(`/cards/${page}` , {
+      headers : {
+        "authorization" : "Bearer "+token
+      }
+    });
     const data = response.data;
     const totalItems = response.headers["x-total-count"];
 
