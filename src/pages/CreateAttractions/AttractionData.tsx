@@ -6,6 +6,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import api from '../../services/api';
 import RadioForm from 'react-native-simple-radio-button';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -17,13 +18,7 @@ interface AttractionDataRouteParams{
 }
 
 interface Municipality{
-  id : number,
   name : string,
-  population : string,
-  temperature : number,
-  history : string,
-  climate : number,
-  access : string
 }
 
 
@@ -38,13 +33,25 @@ export default function AttractionData() {
   const[whatsapp , setWhatsapp] = useState('')
   const[images , setImages] = useState<string[]>([]);
   const[municipality_id , setMunicipality_id] = useState('');
+  const token = AsyncStorage.getItem("myToken");
+  // const [token, setToken] = useState("");
+  
+  // const load = async () => {
+  //   let token = await AsyncStorage.getItem("myToken");
+
+  //   if(token !== null){
+  //     setToken(token);
+  //   }
+  // }
+
+  // load();
   
   const navigation = useNavigation();
   const route = useRoute();
   const params = route.params as AttractionDataRouteParams;
 
  async function handleCreateAttraction(){
-
+   
     const {latitude , longitude} = params.position;
 
     console.log({
@@ -79,7 +86,9 @@ export default function AttractionData() {
       }as any)
     });
     
-    await api.post('attractions' , data);
+    await api.post('attractions'  ,data  , { headers : {
+      "authorization" : "Bearer "+token
+    }});
 
 
     navigation.navigate('AttractionsMap');
@@ -113,11 +122,15 @@ const [municipality, setMunicipality] = useState<Municipality[]>([]);
 
 
 
-  useEffect(()=>{
-    api.get('/municipality').then(response =>{
-        setMunicipality(response.data);
-    });
-  },);
+useEffect(()=>{
+  api.get('/municipality' , {
+    headers : {
+      "authorization" : "Bearer "+token,
+    }
+  }).then(response =>{
+      setMunicipality(response.data.name);
+  });
+},);
 
 
   return (

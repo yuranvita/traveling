@@ -16,11 +16,7 @@ export default function Login(){
   const [password , setPassword] = useState('');
 
   async function handleLogin() {
-    console.log('entrou na handleLogin')
-   
     try {
-
-      console.log("esperando response")
       const response = await api.post('/session' , {email , password},{
         headers : {
           'Content-Type' : 'application/json',
@@ -28,7 +24,9 @@ export default function Login(){
       });
 
       
-      localStorage.setItem('token' , response.data);
+      await AsyncStorage.setItem("myToken" , response.data);
+
+     
 
 
 

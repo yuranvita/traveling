@@ -19,15 +19,26 @@ interface Attraction {
 
 export default function AttractionMap(){
    
+
+  // const [token, setToken] = useState("");
   
-  const token = localStorage.getItem("token");
-  const tokenT = localStorage.getItem('token');
+  // const load = async () => {
+  //   let token = await AsyncStorage.getItem("myToken");
+
+  //   if(token !== null){
+  //     setToken(token);
+  //   }
+  // }
+  
+ 
+  
 
   const [attraction, setAttraction] = useState<Attraction[]>([]);
 
-  
-  console.log(token + "to aqui")
+
+
   async function feed() {
+    const token = await AsyncStorage.getItem("myToken");
       api.get('/attractions' , {
         headers : {
           "authorization" : "Bearer "+token,

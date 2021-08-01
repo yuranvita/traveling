@@ -3,6 +3,7 @@ import { Image, View, ScrollView, Text, StyleSheet, Dimensions, Linking } from '
 import MapView, { Marker } from 'react-native-maps';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import {useRoute} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 import mapMarkerImg from '../images/map-marker.png';
@@ -42,17 +43,39 @@ export default function AttractionsDetails() {
     Linking.openURL(`https://api.whatsapp.com/send?phone=55${attraction?.whatsapp}&text=Olá,Tudo Bem?`)
   }
 
+
+  // const [token, setToken] = useState("");
+  
+  // const load = async () => {
+  //   let token = await AsyncStorage.getItem("myToken");
+
+  //   if(token !== null){
+  //     setToken(token);
+  //   }
+  // }
+ 
+  
+  
   const route = useRoute();
 
   const params = route.params as AttractionDetailsParamsID;
   const [attraction , setAttraction] = useState<Attraction>();
 
 
-  useEffect(()=>{
-    api.get(`attractions/${params.id}`).then(Response =>{
+
+  async function data() {
+    const token = await AsyncStorage.getItem("myToken");
+    api.get(`attractions/${params.id}` , { headers : {"authorization":"Bearer "+token}}).then(Response =>{
       setAttraction(Response.data);
     })
-  }, [params.id]);
+  }
+
+  
+    useEffect(()=>{
+      data()
+    }, [params.id]);
+  
+ 
 
   if(!attraction) {
     <View style={styles.container}>

@@ -2,6 +2,7 @@ import React, { useState , useEffect } from 'react';
 import { Dimensions, StyleSheet, Text, View , ScrollView , Image, FlatList} from 'react-native';
 import {Feather} from '@expo/vector-icons';
 import api from '../services/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Attraction {
     id : number ;
@@ -27,10 +28,22 @@ export default function AttractionCard(){
   const [loading , setLoading] = useState(false);
   const [feed, setFeed] = useState<Attraction[]>([]);
 
-  const token = localStorage.getItem("token");
+  const [token, setToken] = useState("");
+  
+  // const load = async () => {
+  //   let token = await AsyncStorage.getItem("myToken");
+
+  //   if(token){
+  //     setToken(token);
+  //   }
+  // }
+
+ 
+  
+  
 
   async function  loadPage(pageNumber  = page) {
-
+    const token = await AsyncStorage.getItem("myToken");
     if(total && pageNumber> total){
       return
     }
@@ -50,7 +63,7 @@ export default function AttractionCard(){
     setPage(pageNumber + 1);
     console.log(total);
   }
-
+  
   useEffect(()=>{
     loadPage()
   }, []);
