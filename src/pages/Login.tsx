@@ -52,7 +52,7 @@ export default function Login(){
         value={email}
         onChangeText={setEmail}
         ></TextInput>
-        <Text style={styles.text}>Password</Text>
+        <Text style={styles.text}>Senha</Text>
         <TextInput
         style={styles.input}
         value={password}
@@ -61,10 +61,10 @@ export default function Login(){
         ></TextInput>
         <View style={styles.boxButtons}>
           <RectButton style={styles.signInButton} onPress={handleLogin}>
-            <Text style={styles.signInButtonText}>Sign-In</Text>
+            <Text style={styles.signInButtonText}>Logar</Text>
           </RectButton>
           <RectButton style={styles.signUpButton} onPress={handleSingUp}>
-            <Text style={styles.signUpButtonText}>Sign-Up</Text>
+            <Text style={styles.signUpButtonText}>Cadastrar</Text>
           </RectButton>
         </View>
       </View>

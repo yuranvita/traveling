@@ -13,6 +13,7 @@ interface Position{
 }
 
 export default function SelectMapPosition() {
+
   const navigation = useNavigation();
 
   const [position , setPosition] = useState({latitude : 0 , longitude :0 });

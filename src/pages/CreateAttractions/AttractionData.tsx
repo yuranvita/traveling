@@ -7,6 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import api from '../../services/api';
 import RadioForm from 'react-native-simple-radio-button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {decode} from 'jsonwebtoken'
 
 
 
@@ -33,24 +34,22 @@ export default function AttractionData() {
   const[whatsapp , setWhatsapp] = useState('')
   const[images , setImages] = useState<string[]>([]);
   const[municipality_id , setMunicipality_id] = useState('');
+
   const token = AsyncStorage.getItem("myToken");
-  // const [token, setToken] = useState("");
   
-  // const load = async () => {
-  //   let token = await AsyncStorage.getItem("myToken");
-
-  //   if(token !== null){
-  //     setToken(token);
-  //   }
-  // }
-
-  // load();
+  
+  
   
   const navigation = useNavigation();
   const route = useRoute();
   const params = route.params as AttractionDataRouteParams;
 
+  const user_id =  decode(token as any, {complete : true})
+
+  console.log(user_id?.payload.sub);
+
  async function handleCreateAttraction(){
+   
    
     const {latitude , longitude} = params.position;
 
@@ -68,6 +67,7 @@ export default function AttractionData() {
     const data = new FormData();
 
     data.append('name' , name);
+    data.append('user_ir', String(user_id?.payload.sub));
     data.append('about' , about);
     data.append('latitude' , String(latitude));
     data.append('longitude' , String(longitude));

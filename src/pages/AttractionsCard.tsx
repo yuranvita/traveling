@@ -61,7 +61,6 @@ export default function AttractionCard(){
     setTotal(Math.floor(totalItems/5)+1)
     setFeed([...feed, ...data]);
     setPage(pageNumber + 1);
-    console.log(total);
   }
   
   useEffect(()=>{
