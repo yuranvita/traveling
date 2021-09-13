@@ -20,7 +20,7 @@ export default function Header( {title ,showCancel =true }  : HeaderProps){
     return (
         <View style={styles.container}>
             <BorderlessButton onPress={navigation.goBack}>
-                <Feather name="arrow-left" size={24} color="#15b5b6"/>
+                <Feather name="arrow-left" size={24} color="#FFD700"/>
             </BorderlessButton>
             <Text style={styles.title}>{title}</Text>
 
@@ -40,7 +40,7 @@ export default function Header( {title ,showCancel =true }  : HeaderProps){
 const styles = StyleSheet.create({
     container : {
         padding :25,
-        backgroundColor : '#f9fafc',
+        backgroundColor : '#15c3d6',
         borderBottomWidth : 1 ,
         borderColor : '#dde3f0',
         paddingTop : 44 ,
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
 
     title : {
         fontFamily : 'Nunito_600SemiBold',
-        color: '#8fa7b5',
+        color: '#fff',
         fontSize : 16,
     }
 });

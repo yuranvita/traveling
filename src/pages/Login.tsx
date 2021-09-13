@@ -9,11 +9,23 @@ import api from '../services/api';
 
 
 
+const token = AsyncStorage.getItem("myToken");
+
+
+
 export default function Login(){
 
-  const  navigation  = useNavigation();
+
   const [email , setEmail] = useState('');
   const [password , setPassword] = useState('');
+  const  navigation  = useNavigation();
+
+  const token = AsyncStorage.getItem("my-Token");
+
+   if(token["_W"] != null){
+     console.log(token);
+     navigation.navigate('AttractionsMap');
+   }
 
   async function handleLogin() {
     try {
@@ -23,19 +35,18 @@ export default function Login(){
         }
       });
 
-      
-      await AsyncStorage.setItem("myToken" , response.data);
+      const token = await response.data;
 
-     
 
+      await AsyncStorage.setItem("my-Token" , token);
 
 
       navigation.navigate('AttractionsMap' , response.data);
 
     } catch (error) {
-      alert("algo deu errado :" + error)
+      alert("E-Mail ou Senha Incorreto! " + error)
     }
-     
+
   }
 
   async function handleSingUp() {
@@ -47,7 +58,7 @@ export default function Login(){
     <View style={styles.container}>
       <View style={styles.boxSize}>
       <Text style={styles.text}>E-Mail</Text>
-        <TextInput 
+        <TextInput
         style={styles.input}
         value={email}
         onChangeText={setEmail}
@@ -99,7 +110,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     marginBottom: 16,
     textAlignVertical: 'top',
-  }, 
+  },
   signInButton: {
     backgroundColor: '#FF37a1',
     borderRadius: 20,

@@ -7,7 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import api from '../../services/api';
 import RadioForm from 'react-native-simple-radio-button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {decode} from 'jsonwebtoken'
+import  jwtDecode  from 'jwt-decode';
 
 
 
@@ -23,6 +23,8 @@ interface Municipality{
 }
 
 
+const token = AsyncStorage.getItem("my-Token");
+
 
 export default function AttractionData() {
 
@@ -32,11 +34,17 @@ export default function AttractionData() {
   const[opening_hours ,setOpeninghours] =useState('');
   const[open_on_weekends ,setOpenonweekeds] =useState(true);
   const[whatsapp , setWhatsapp] = useState('')
-  const[images , setImages] = useState<string[]>([]);
-  const[municipality_id , setMunicipality_id] = useState('');
+  //const[images , setImages] = useState<string[]>([]);
+  //ID de BOA-VISTA ALTERAR NO CÓDIGO DEPOIS;
+  const[municipality_id , setMunicipality_id] = useState('37b5f7c4-7f81-4ad7-a12a-b805387df2ff');
 
-  const token = AsyncStorage.getItem("myToken");
   
+  interface user{
+    email : string;
+    sub : string;
+    iat : number;
+    
+  }
   
   
   
@@ -44,17 +52,24 @@ export default function AttractionData() {
   const route = useRoute();
   const params = route.params as AttractionDataRouteParams;
 
-  const user_id =  decode(token as any, {complete : true})
+  
+  
 
-  console.log(user_id?.payload.sub);
+ 
 
  async function handleCreateAttraction(){
-   
+
+  
+ 
+  const user =   jwtDecode( token["_W"]) as user ;
+  const user_id = user.sub;
+  
    
     const {latitude , longitude} = params.position;
-
+    
     console.log({
       name,
+      user_id,
       about,
       instruction,
       opening_hours,
@@ -63,75 +78,79 @@ export default function AttractionData() {
       longitude,
       whatsapp,
       municipality_id
-    })
-    const data = new FormData();
-
-    data.append('name' , name);
-    data.append('user_ir', String(user_id?.payload.sub));
-    data.append('about' , about);
-    data.append('latitude' , String(latitude));
-    data.append('longitude' , String(longitude));
-    data.append('instruction' , instruction);
-    data.append('opening_hours' , opening_hours);
-    data.append('open_on_weekends' , String(open_on_weekends));
-    data.append('whatsapp', whatsapp);
-    data.append('municipality_id' , municipality_id);
-    
-
-    images.forEach((image , index)=>{
-      data.append('images',{
-        name : `image_${index}.jpg`,
-        type: 'image/jpg',
-        uri : image,
-      }as any)
     });
+
+    const data = {
+      name,
+      user_id,
+      about,
+      instruction,
+      opening_hours,
+      open_on_weekends : String(open_on_weekends),
+      latitude,
+      longitude,
+      whatsapp,
+      municipality_id
+    }
+
+    // const data = new FormData();
+
+    // data.append('user_ir', user_id);
+    // data.append('name' , name);
+    // data.append('latitude' , String(latitude));
+    // data.append('longitude' , String(longitude));
+    // data.append('about' , about);
+    // data.append('instruction' , instruction);
+    // data.append('opening_hours' , opening_hours);
+    // data.append('open_on_weekends' , String(open_on_weekends));
+    // data.append('whatsapp', whatsapp);
+    // data.append('municipality_id' , municipality_id);
     
-    await api.post('attractions'  ,data  , { headers : {
-      "authorization" : "Bearer "+token
-    }});
 
+    // images.forEach((image , index)=>{
+    //   data.append('images',{
+    //     name : `image_${index}.jpg`,
+    //     type: 'image/jpg',
+    //     uri : image,
+    //   }as any)
+    // });
 
-    navigation.navigate('AttractionsMap');
+    try{
+      await api.post('/attractions'  , data  , { 
+        headers : {
+        "authorization" : "Bearer "+token["_W"]     
+       }});
+
+       navigation.navigate('AttractionsMap');
+    }catch (err){
+      alert(err);
+    }
+    
   }
 
+// Removendo para o backend -- Em construção par AWS
+//  async  function handleSelectImages(){
+//     const {status} = await  ImagePicker.requestCameraRollPermissionsAsync();
 
- async  function handleSelectImages(){
-    const {status} = await  ImagePicker.requestCameraRollPermissionsAsync();
-
-    if (status !== 'granted'){
-      alert ('eita , precisamos de acesso ás suas fotos...')
-      return ;
-    }
-    const result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing:true,
-      quality : 1,
-      mediaTypes : ImagePicker.MediaTypeOptions.Images,
-    });
+//     if (status !== 'granted'){
+//       alert ('eita , precisamos de acesso ás suas fotos...')
+//       return ;
+//     }
+//     const result = await ImagePicker.launchImageLibraryAsync({
+//       allowsEditing:true,
+//       quality : 1,
+//       mediaTypes : ImagePicker.MediaTypeOptions.Images,
+//     });
     
-    if(result.cancelled){
-      return;
-    }else{
+//     if(result.cancelled){
+//       return;
+//     }else{
 
-    const {uri : image} = result;
+//     const {uri : image} = result;
 
-    setImages([...images, image])
-  }
-}
-
-const [municipality, setMunicipality] = useState<Municipality[]>([]);
-
-
-
-useEffect(()=>{
-  api.get('/municipality' , {
-    headers : {
-      "authorization" : "Bearer "+token,
-    }
-  }).then(response =>{
-      setMunicipality(response.data.name);
-  });
-},);
-
+//     setImages([...images, image])
+//   }
+// }
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ padding: 24 }}>
@@ -152,7 +171,10 @@ useEffect(()=>{
         onChangeText={setAbout}
       />
 
-      <Text style={styles.label}>Fotos</Text>
+      
+       {
+       //AWS server from images upload
+       /* <Text style={styles.label}>Fotos</Text>
 
       <View style={styles.uploadedImagesContainer}>
         {images.map(image => {
@@ -164,11 +186,12 @@ useEffect(()=>{
             ></Image>
           );
         })}
-      </View>
+      </View> 
+      
 
       <TouchableOpacity style={styles.imagesInput} onPress={handleSelectImages}>
-        <Feather name="plus" size={24} color="#15B6D6" />
-      </TouchableOpacity>
+        <Feather name="plus" size={24} color="#FFD700" />
+      </TouchableOpacity>  */}
 
       <Text style={styles.title}>Visitação</Text>
 
@@ -239,9 +262,9 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    backgroundColor: '#fff',
+    backgroundColor: '#FFF',
     borderWidth: 1.4,
-    borderColor: '#d3e2e6',
+    borderColor: '#FFD700',
     borderRadius: 20,
     height: 56,
     paddingVertical: 18,
@@ -263,7 +286,7 @@ const styles = StyleSheet.create({
   imagesInput: {
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
     borderStyle: 'dashed',
-    borderColor: '#96D2F0',
+    borderColor: '#FFD700',
     borderWidth: 1.4,
     borderRadius: 20,
     height: 56,
@@ -280,7 +303,7 @@ const styles = StyleSheet.create({
   },
 
   nextButton: {
-    backgroundColor: '#15c3d6',
+    backgroundColor: '#29FF26',
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
@@ -291,6 +314,6 @@ const styles = StyleSheet.create({
   nextButtonText: {
     fontFamily: 'Nunito_800ExtraBold',
     fontSize: 16,
-    color: '#FFF',
+    color: '#111',
   }
 })

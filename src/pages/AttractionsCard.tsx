@@ -28,27 +28,12 @@ export default function AttractionCard(){
   const [loading , setLoading] = useState(false);
   const [feed, setFeed] = useState<Attraction[]>([]);
 
-  const [token, setToken] = useState("");
-  
-  // const load = async () => {
-  //   let token = await AsyncStorage.getItem("myToken");
-
-  //   if(token){
-  //     setToken(token);
-  //   }
-  // }
-
- 
-  
-  
 
   async function  loadPage(pageNumber  = page) {
-    const token = await AsyncStorage.getItem("myToken");
+    const token = await AsyncStorage.getItem("my-Token");
     if(total && pageNumber> total){
       return
     }
-
-    console.log(pageNumber);
     
     const response = await api.get(`/cards/${page}` , {
       headers : {

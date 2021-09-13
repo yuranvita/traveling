@@ -9,8 +9,8 @@ import mapMarkerImg from '../../images/map-marker.png';
 
 
 interface Position{
-
 }
+
 
 export default function SelectMapPosition() {
 
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   },
 
   nextButton: {
-    backgroundColor: '#15c3d6',
+    backgroundColor: '#29FF26',
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',

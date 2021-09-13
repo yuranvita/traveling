@@ -39,7 +39,7 @@ export default function Header( {title ,showCancel =true }  : HeaderProps){
 const styles = StyleSheet.create({
     container : {
         padding :25,
-        backgroundColor : '#f9fafc',
+        backgroundColor : '#29FF26',
         borderBottomWidth : 1 ,
         borderColor : '#dde3f0',
         paddingTop : 44 ,
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
 
     title : {
         fontFamily : 'Nunito_600SemiBold',
-        color: '#8fa7b5',
+        color: '#111',
         fontSize : 16,
     }
 });

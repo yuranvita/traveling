@@ -20,16 +20,6 @@ interface Attraction {
 export default function AttractionMap(){
    
 
-  // const [token, setToken] = useState("");
-  
-  // const load = async () => {
-  //   let token = await AsyncStorage.getItem("myToken");
-
-  //   if(token !== null){
-  //     setToken(token);
-  //   }
-  // }
-  
  
   
 
@@ -38,28 +28,30 @@ export default function AttractionMap(){
 
 
   async function feed() {
-    const token = await AsyncStorage.getItem("myToken");
-      api.get('/attractions' , {
+    const token = await AsyncStorage.getItem("my-Token");
+    
+    api.get('/attractions' , {
         headers : {
           "authorization" : "Bearer "+token,
         }
       }).then(response =>{
           setAttraction(response.data);
       });
-
-
     };
-  
-    useEffect(()=>{
+
+    useFocusEffect(()=>{
       feed();
     })
+  
+    
+    
    
     
 
     const navigation = useNavigation();
 
     function handleNavigateToCreateAttraction(){
-        navigation.navigate('SelectMapPosition');
+        navigation.navigate('SelectMapPosition' );
     }
 
     function handleNavigateToDetails(id : number){
@@ -109,8 +101,8 @@ export default function AttractionMap(){
         </MapView>
         <View style={styles.footer}>
           <Text style={styles.footerText}>{attraction.length}</Text>
-          <RectButton style={styles.createOrphanageButton} onPress={handleNavigateToCreateAttraction}>
-            <Feather name="plus" size={20} color="#fff" />
+          <RectButton style={styles.createAttractionButton} onPress={handleNavigateToCreateAttraction}>
+            <Feather name="plus" size={20} color="#111" />
           </RectButton>
         </View>
       </View>
@@ -169,10 +161,10 @@ const styles = StyleSheet.create({
       fontFamily: 'Nunito_700Bold'
     },
   
-    createOrphanageButton:{
+    createAttractionButton:{
       width : 56 ,
       height : 56 ,
-      backgroundColor : '#15c3d6',
+      backgroundColor : '#FFD700',
       borderRadius :28,
   
       justifyContent :'center',

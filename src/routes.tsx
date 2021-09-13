@@ -45,7 +45,7 @@ export default function Routes(){
                 component={AttractionsCard}
                 options={{
                     headerShown : true,
-                    header: ()=> <NavigationOnCard showCancel={true} title="Card"/>
+                    header: ()=> <NavigationOnCard showCancel={true} title="Feed"/>
                 }}
                 />
                 <Screen 

@@ -64,8 +64,9 @@ export default function AttractionsDetails() {
 
 
   async function data() {
-    const token = await AsyncStorage.getItem("myToken");
-    api.get(`attractions/${params.id}` , { headers : {"authorization":"Bearer "+token}}).then(Response =>{
+    const token = await AsyncStorage.getItem("my-Token");
+    api.get(`attractions/${params.id}` , { 
+        headers : {"authorization":"Bearer "+token}}).then(Response =>{
       setAttraction(Response.data);
     })
   }
