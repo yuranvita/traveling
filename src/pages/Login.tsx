@@ -1,10 +1,13 @@
 import React from "react";
 import { useState } from "react";
 import { View , StyleSheet , Text, Dimensions } from "react-native";
-import { TextInput  , RectButton} from "react-native-gesture-handler";
+import { TextInput  , RectButton, RotationGestureHandler} from "react-native-gesture-handler";
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../services/api';
+import { LinearGradient } from "expo";
+import { Colors } from "react-native/Libraries/NewAppScreen";
+import { color } from "react-native-reanimated";
 
 
 
@@ -56,6 +59,14 @@ export default function Login(){
 
   return(
     <View style={styles.container}>
+      <View style={styles.starfive}>
+        <View style={styles.starfiveTop}/>
+        <View style={styles.starfiveBefore}/>
+        <View style={styles.starfiveAfter}/>
+      </View>
+      <View style={styles.blue}></View>
+      <View style={styles.green}></View>
+      <View style={styles.red}></View>  
       <View style={styles.boxSize}>
       <Text style={styles.text}>E-Mail</Text>
         <TextInput
@@ -78,7 +89,7 @@ export default function Login(){
             <Text style={styles.signUpButtonText}>Cadastrar</Text>
           </RectButton>
         </View>
-      </View>
+      </View>       
     </View>
   )
 }
@@ -88,21 +99,42 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
+  },
+  green :{
+    backgroundColor : "#29FF26",
+    width : 300,
+    height : 700,
+    transform : [{rotate : "50deg"}],
+    
+  },
+  blue : {
+    backgroundColor : "#15c3d6",
+    width : 300,
+    height : 700,
+    transform : [{rotate : "50deg"}],
+  },
+  red :{
+    position : 'absolute',
+    bottom : 80 ,
+    height: 5,
+    width: '120%',
+    backgroundColor: '#ff0000',
   },
   boxSize : {
+    position: 'absolute',
     alignItems : 'center',
-    backgroundColor : "#c4c5c6",
-    width : Dimensions.get('window').width,
+    backgroundColor : 'transparent',
     justifyContent : 'center',
     flexDirection : 'column',
     padding : 20,
     borderRadius : 20
+    
   },
     input: {
     backgroundColor: '#fff',
-    borderWidth: 1.4,
-    borderColor: '#d3e2e6',
+    borderWidth:3,
+    borderColor: '#111',
     borderRadius: 20,
     height: 56,
     width : 250,
@@ -110,9 +142,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     marginBottom: 16,
     textAlignVertical: 'top',
+    
   },
   signInButton: {
-    backgroundColor: '#FF37a1',
+    backgroundColor: '#29FF26',
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
@@ -121,7 +154,7 @@ const styles = StyleSheet.create({
     marginRight : 20
   },
   signUpButton :{
-    backgroundColor: '#a11aff',
+    backgroundColor: '#15c3d6',
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
@@ -148,5 +181,54 @@ const styles = StyleSheet.create({
   boxButtons :{
     flexDirection : 'row',
     justifyContent : 'space-between'
-  }
+  },
+  starfive: {
+    position : 'absolute',
+    width: 150,
+    height: 150,
+  },
+  starfiveTop: {
+    position: 'absolute',
+    width: 0,
+    height: 0,
+    left :35,
+    backgroundColor: "transparent",
+    borderStyle: "solid",
+    borderLeftWidth: 30,
+    borderRightWidth: 30,
+    borderBottomWidth: 75,
+    borderLeftColor: "transparent",
+    borderRightColor: "transparent",
+    borderBottomColor: "yellow"
+  },
+  starfiveBefore: {
+    backgroundColor: "transparent",
+    position: "absolute",
+    left: -30,
+    top: 50,
+    borderStyle: "solid",
+    borderRightWidth: 100,
+    borderRightColor: "transparent",
+    borderBottomWidth: 70,
+    borderBottomColor: "yellow",
+    borderLeftWidth: 100,
+    borderLeftColor: "transparent",
+    transform: [{ rotate: "35deg" }],
+  },
+  starfiveAfter: {
+    backgroundColor: "transparent",
+    position: "absolute",
+    top: 50,
+    left: -30,
+    width: 0,
+    height: 0,
+    borderStyle: "solid",
+    borderRightWidth: 100,
+    borderRightColor: "transparent",
+    borderBottomWidth: 70,
+    borderBottomColor: "yellow",
+    borderLeftWidth: 100,
+    borderLeftColor: "transparent",
+    transform: [{ rotate: "-35deg" }],
+  },
 })

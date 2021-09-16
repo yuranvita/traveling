@@ -13,6 +13,7 @@ export default function SignUp(){
   const navigation = useNavigation();
   const [email , setEmail] = useState('');
   const [password , setPassword] = useState('');
+  const [passwordConfirme , setPasswordConfirme] = useState('');
   const [name , setName] = useState('') ;
 
   async function handleSingUp() {
@@ -20,6 +21,11 @@ export default function SignUp(){
     let response ;
     
     try {
+
+      if(password != passwordConfirme){
+        alert("a senha não confere!")
+        return
+      }
      //verificar se já existe usuário
       response = await api.post('/user' , {name ,email , password} );
 
@@ -40,8 +46,16 @@ export default function SignUp(){
 
   return(
     <View style={styles.container}>
+      <View style={styles.blue}></View>    
+      <View style={styles.starfive}>
+        <View style={styles.starfiveTop}/>
+        <View style={styles.starfiveBefore}/>
+        <View style={styles.starfiveAfter}/>
+      </View>
+      <View style={styles.green}></View>
+      <View style={styles.red}></View>        
       <View style={styles.boxSize}>
-        <Text style={styles.text}>Name</Text>
+        <Text style={styles.text}>Nome</Text>
         <TextInput 
         style={styles.input}
         value={name}
@@ -59,6 +73,13 @@ export default function SignUp(){
         value={password}
         secureTextEntry
         onChangeText={setPassword}
+        ></TextInput>
+        <Text style={styles.text}>Repita sua senha</Text>
+        <TextInput 
+        style={styles.input}
+        value={passwordConfirme}
+        secureTextEntry
+        onChangeText={setPasswordConfirme}
         ></TextInput>
         <View style={styles.boxButtons}>
           <RectButton style={styles.signUpButton} onPress={handleSingUp}>
@@ -78,8 +99,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   boxSize : {
+    position : 'absolute',
     alignItems : 'center',
-    backgroundColor : "#c4c5c6",
+    backgroundColor : "transparent",
     width : Dimensions.get('window').width,
     justifyContent : 'center',
     flexDirection : 'column',
@@ -87,9 +109,9 @@ const styles = StyleSheet.create({
     borderRadius : 20
   },
     input: {
+    borderWidth: 2,
+    borderColor: '#111',
     backgroundColor: '#fff',
-    borderWidth: 1.4,
-    borderColor: '#d3e2e6',
     borderRadius: 20,
     height: 56,
     width : 250,
@@ -99,7 +121,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
   }, 
   signInButton: {
-    backgroundColor: '#FF37a1',
+    backgroundColor: '#15c3d6',
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
@@ -108,12 +130,12 @@ const styles = StyleSheet.create({
     marginRight : 20
   },
   signUpButton :{
-    backgroundColor: '#a11aff',
+    backgroundColor: '#15c3d6',
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
     height: 56,
-    width : 100,
+    width : 160,
     marginLeft: 20
   },
   signUpButtonText:{
@@ -135,5 +157,75 @@ const styles = StyleSheet.create({
   boxButtons :{
     flexDirection : 'row',
     justifyContent : 'space-between'
-  }
+  },
+  green :{
+
+    backgroundColor : "#29FF26",
+    width : 300,
+    height : 700,
+    transform : [{rotate : "50deg"}],
+    
+  },
+  blue : {
+    backgroundColor : "#15c3d6",
+    width : 300,
+    height : 700,
+    transform : [{rotate : "50deg"}],
+  },
+  red :{
+    position : 'absolute',
+    bottom : 80 ,
+    height: 5,
+    width: '120%',
+    backgroundColor: '#ff0000',
+  },
+  starfive: {
+    position : 'absolute',
+    width: 150,
+    height: 150,
+  },
+  starfiveTop: {
+    position: 'absolute',
+    width: 0,
+    height: 0,
+    left :35,
+    backgroundColor: "transparent",
+    borderStyle: "solid",
+    borderLeftWidth: 30,
+    borderRightWidth: 30,
+    borderBottomWidth: 75,
+    borderLeftColor: "transparent",
+    borderRightColor: "transparent",
+    borderBottomColor: "yellow"
+  },
+  starfiveBefore: {
+    backgroundColor: "transparent",
+    position: "absolute",
+    left: -30,
+    top: 50,
+    borderStyle: "solid",
+    borderRightWidth: 100,
+    borderRightColor: "transparent",
+    borderBottomWidth: 70,
+    borderBottomColor: "yellow",
+    borderLeftWidth: 100,
+    borderLeftColor: "transparent",
+    transform: [{ rotate: "35deg" }],
+  },
+  starfiveAfter: {
+    backgroundColor: "transparent",
+    position: "absolute",
+    top: 50,
+    left: -30,
+    width: 0,
+    height: 0,
+    borderStyle: "solid",
+    borderRightWidth: 100,
+    borderRightColor: "transparent",
+    borderBottomWidth: 70,
+    borderBottomColor: "yellow",
+    borderLeftWidth: 100,
+    borderLeftColor: "transparent",
+    transform: [{ rotate: "-35deg" }],
+  },
 })

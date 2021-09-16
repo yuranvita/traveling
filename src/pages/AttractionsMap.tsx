@@ -125,8 +125,8 @@ const styles = StyleSheet.create({
     calloutContainer:{
       width:168 ,
       height:46,
-      paddingHorizontal:16,
-      backgroundColor: 'rgba(255, 255, 255, 0.8)',
+      paddingHorizontal:0,
+      backgroundColor: 'rgba(255, 255, 255, 0.9)',
       borderRadius:16 ,
       justifyContent: 'center',
   
@@ -136,6 +136,7 @@ const styles = StyleSheet.create({
       color:'#8089a5',
       fontSize: 14 ,
       fontFamily : 'Nunito_700Bold',
+      justifyContent : 'center'
   
     },
   
