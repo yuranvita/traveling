@@ -1,8 +1,10 @@
 import React, { useState , useEffect } from 'react';
-import { Dimensions, StyleSheet, Text, View , ScrollView , Image, FlatList} from 'react-native';
-import {Feather} from '@expo/vector-icons';
+import { Dimensions, StyleSheet, Text, View , ScrollView , Image, FlatList , ImageBackground} from 'react-native';
 import api from '../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import img from '../images/in_construct.png';
+
 
 interface Attraction {
     id : number ;
@@ -64,7 +66,7 @@ export default function AttractionCard(){
             <View style={styles.body_card}>
               <Text style={styles.title}>{item.name}</Text>
               <ScrollView horizontal pagingEnabled>
-                {item?.images.map(images => {
+                {/* {item?.images.map(images => {
                   return (
                     <Image 
                     key={images.id}
@@ -72,12 +74,21 @@ export default function AttractionCard(){
                     source={{ uri: images.url}}
                     />
                   );
-                })}
+                })}  */}
+                <ImageBackground
+                source={img}
+                style={styles.image}
+                >
+                </ImageBackground>
+                <ImageBackground
+                source={img}
+                style={styles.image}
+                >
+                </ImageBackground>
               </ScrollView>
               <View style={styles.title}>
                 <Text style={styles.scheduleText}>{item.about}</Text>
                 <Text style={styles.scheduleText}>{item.instruction}</Text>
-                
               </View>
             </View>
           </View>

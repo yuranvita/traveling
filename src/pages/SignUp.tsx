@@ -18,7 +18,7 @@ export default function SignUp(){
 
   async function handleSingUp() {
 
-    let response ;
+    let response : any ;
     
     try {
 
@@ -29,6 +29,17 @@ export default function SignUp(){
      //verificar se já existe usuário
       response = await api.post('/user' , {name ,email , password} );
 
+
+      if(!response.data){
+        <View style={styles.container}>
+          <Text style={styles.text}>
+             Carregando...
+          </Text>
+        </View>
+      }
+
+      alert(response.data);
+
       console.log(response.data)
       alert("Conta criada com sucesso!");
 
@@ -37,7 +48,7 @@ export default function SignUp(){
     } catch (error) {
       
     
-      alert("Algo deu errado, por favor tente novamente!"+error)
+      alert("digite um email valido!"+error)
     }
      
   }
@@ -162,15 +173,15 @@ const styles = StyleSheet.create({
 
     backgroundColor : "#29FF26",
     width : 300,
-    height : 700,
-    transform : [{rotate : "50deg"}],
+    height : Dimensions.get('window').height,
+    transform : [{rotate : "55deg"}],
     
   },
   blue : {
     backgroundColor : "#15c3d6",
     width : 300,
-    height : 700,
-    transform : [{rotate : "50deg"}],
+    height : Dimensions.get('window').height,
+    transform : [{rotate : "55deg"}],
   },
   red :{
     position : 'absolute',

@@ -7,6 +7,7 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { RectButton } from 'react-native-gesture-handler';
 import api from '../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BackgroundFetch } from 'expo';
 
 interface Attraction {
     id : number ;
@@ -15,6 +16,7 @@ interface Attraction {
     longitude : number ;
 
 }
+
 
 
 export default function AttractionMap(){
@@ -63,10 +65,10 @@ export default function AttractionMap(){
     return (
       <View style={styles.container}>
         <MapView
-         
+        showsTraffic
         provider={PROVIDER_GOOGLE}
         style={styles.map}
-        mapType='terrain'
+        mapType = 'standard'
         showsPointsOfInterest={false}
         initialRegion={{
           latitude: 2.8246016,
@@ -91,7 +93,7 @@ export default function AttractionMap(){
                 }}
               >
                 <Callout tooltip onPress={()=>{handleNavigateToDetails(attraction.id)}}>
-                  <View style = {  styles.calloutContainer}>
+                  <View style = {styles.calloutContainer}>
                         <Text style = {styles.calloutText}>{attraction.name}</Text>
                   </View>
                 </Callout>
@@ -119,24 +121,24 @@ const styles = StyleSheet.create({
   
     map: {
       height : Dimensions.get('window').height,
-      width : Dimensions.get('window').width,
+      width : Dimensions.get('window').width
     },
   
     calloutContainer:{
       width:168 ,
       height:46,
-      paddingHorizontal:0,
-      backgroundColor: 'rgba(255, 255, 255, 0.9)',
-      borderRadius:16 ,
+      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+      borderRadius: 20 ,
       justifyContent: 'center',
-  
+      alignItems : 'center',
     },
   
     calloutText :{
-      color:'#8089a5',
-      fontSize: 14 ,
+      color:'#FFF',
+      fontSize: 18 ,
       fontFamily : 'Nunito_700Bold',
-      justifyContent : 'center'
+      justifyContent : 'center',
+      alignItems : 'center'
   
     },
   
@@ -167,11 +169,8 @@ const styles = StyleSheet.create({
       height : 56 ,
       backgroundColor : '#FFD700',
       borderRadius :28,
-  
       justifyContent :'center',
       alignItems : 'center'
-  
-  
     }
   
   });

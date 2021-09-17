@@ -1,19 +1,10 @@
 import React from "react";
 import { useState } from "react";
 import { View , StyleSheet , Text, Dimensions } from "react-native";
-import { TextInput  , RectButton, RotationGestureHandler} from "react-native-gesture-handler";
+import { TextInput  , RectButton} from "react-native-gesture-handler";
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../services/api';
-import { LinearGradient } from "expo";
-import { Colors } from "react-native/Libraries/NewAppScreen";
-import { color } from "react-native-reanimated";
-
-
-
-
-const token = AsyncStorage.getItem("myToken");
-
 
 
 export default function Login(){
@@ -23,33 +14,33 @@ export default function Login(){
   const [password , setPassword] = useState('');
   const  navigation  = useNavigation();
 
-  const token = AsyncStorage.getItem("my-Token");
-
-   if(token["_W"] != null){
-     console.log(token);
-     navigation.navigate('AttractionsMap');
-   }
 
   async function handleLogin() {
-    try {
+  
+
+    try{
+
+      
       const response = await api.post('/session' , {email , password},{
         headers : {
           'Content-Type' : 'application/json',
         }
       });
+      
+      if(!response.data){
+        alert(" Carregando...")
+      }
 
-      const token = await response.data;
+      await AsyncStorage.setItem("my-Token" , response.data);
 
 
-      await AsyncStorage.setItem("my-Token" , token);
-
-
-      navigation.navigate('AttractionsMap' , response.data);
-
-    } catch (error) {
-      alert("E-Mail ou Senha Incorreto! " + error)
+      navigation.navigate('AttractionsMap');
+    }
+    catch(err){
+      alert("algo errado tente novamente" + err);
     }
 
+   
   }
 
   async function handleSingUp() {
@@ -104,15 +95,15 @@ const styles = StyleSheet.create({
   green :{
     backgroundColor : "#29FF26",
     width : 300,
-    height : 700,
-    transform : [{rotate : "50deg"}],
+    height : Dimensions.get('window').height,
+    transform : [{rotate : "55deg"}],
     
   },
   blue : {
     backgroundColor : "#15c3d6",
     width : 300,
-    height : 700,
-    transform : [{rotate : "50deg"}],
+    height : Dimensions.get('window').height,
+    transform : [{rotate : "55deg"}],
   },
   red :{
     position : 'absolute',
@@ -124,7 +115,7 @@ const styles = StyleSheet.create({
   boxSize : {
     position: 'absolute',
     alignItems : 'center',
-    backgroundColor : 'transparent',
+    backgroundColor : '#FFF',
     justifyContent : 'center',
     flexDirection : 'column',
     padding : 20,

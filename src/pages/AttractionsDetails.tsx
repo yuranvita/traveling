@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, View, ScrollView, Text, StyleSheet, Dimensions, Linking } from 'react-native';
+import { Image, View, ScrollView, Text, StyleSheet, Dimensions, Linking , ImageBackground } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import {useRoute} from '@react-navigation/native';
@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import mapMarkerImg from '../images/map-marker.png';
 import { RectButton, TouchableOpacity } from 'react-native-gesture-handler';
 import api from '../services/api';
-import { ImageStore } from 'react-native';
+import img from '../images/in_construct.png';
 
 
 interface AttractionDetailsParamsID{
@@ -98,6 +98,16 @@ export default function AttractionsDetails() {
               />
             );
           })}
+           <ImageBackground
+            source={img}
+            style={styles.image}
+            >
+            </ImageBackground>
+            <ImageBackground
+            source={img}
+            style={styles.image}
+            >
+            </ImageBackground>
         </ScrollView>
       </View>
 
