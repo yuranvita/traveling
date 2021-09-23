@@ -1,4 +1,4 @@
-{
+export default  {
   "expo": {
     "name": "traveling",
     "slug": "traveling",
@@ -17,13 +17,20 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.traveling",
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "android": {
-      "package": "com.traveling"
+      "config" : {
+        "googleMaps":{
+          "apiKey" : process.env.googleMaps
+        }
+      },
+      "package": "com.traveling",
+      "versionCode" : 1
     }
   }
 }

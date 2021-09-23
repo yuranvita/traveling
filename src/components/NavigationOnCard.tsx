@@ -11,7 +11,7 @@ interface HeaderProps {
 
 
 export default function Header( {title ,showCancel =true }  : HeaderProps){
-    const navigation = useNavigation();
+    const navigation = useNavigation() as any;
 
     function handleGoBackToAttractionCard(){
         navigation.navigate('AttractionsCard');

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import MapView, { Marker,PROVIDER_GOOGLE ,Callout} from 'react-native-maps'
+import { Dimensions, StyleSheet, Text, View , PermissionsAndroid ,SafeAreaView} from 'react-native';
+import MapView, { Marker ,Callout } from 'react-native-maps';
 import mapMarker from '../images/map-marker.png';
 import {Feather} from '@expo/vector-icons';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useNavigation} from '@react-navigation/native';
 import { RectButton } from 'react-native-gesture-handler';
 import api from '../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BackgroundFetch } from 'expo';
+import * as Location from "expo-location";
+import Permission from 'expo-permissions';
 
 interface Attraction {
     id : number ;
@@ -17,21 +18,43 @@ interface Attraction {
 
 }
 
+interface Region {
+  latitude : number,
+  longitude : number,
+}
+
 
 
 export default function AttractionMap(){
-   
-
- 
-  
-
   const [attraction, setAttraction] = useState<Attraction[]>([]);
+  const [region, setRegion] = useState<Region>();
+ 
+ 
+  async function requestGeolocationPermission() {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        
+        );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        const location = await Location.getCurrentPositionAsync();
 
-
+       
+        
+        console.log("You can use the geolocation")
+      } else {
+        console.log("Geolocation permission denied")
+      }
+    } catch (err) {
+      console.warn(err)
+    }
+  }
+  
+ 
 
   async function feed() {
     const token = await AsyncStorage.getItem("my-Token");
-    
+
     api.get('/attractions' , {
         headers : {
           "authorization" : "Bearer "+token,
@@ -41,16 +64,16 @@ export default function AttractionMap(){
       });
     };
 
-    useFocusEffect(()=>{
+    useEffect(()=>{
       feed();
-    })
-  
+    }, []);
     
-    
-   
+    useEffect(() => {
+      requestGeolocationPermission();
+    }, []);
     
 
-    const navigation = useNavigation();
+    const navigation = useNavigation() as any;
 
     function handleNavigateToCreateAttraction(){
         navigation.navigate('SelectMapPosition' );
@@ -60,54 +83,54 @@ export default function AttractionMap(){
         navigation.navigate('AttractionsDetails' , {id});
     }
 
+    if(!attraction){
+      alert("carregando");
+    }
 
 
     return (
-      <View style={styles.container}>
-        <MapView
-        showsTraffic
-        provider={PROVIDER_GOOGLE}
-        style={styles.map}
-        mapType = 'standard'
-        showsPointsOfInterest={false}
-        initialRegion={{
-          latitude: 2.8246016,
-          longitude : -60.6732288,
-          latitudeDelta : 0.008,
-          longitudeDelta : 0.008,
-        }}
-        
-        >
-        {attraction.map(attraction =>{
-            return (
-                <Marker
-                key={attraction.id}
-                icon={mapMarker}
-                calloutAnchor={{
-                  x:2.7,
-                  y:0.8,
-                }}
-                coordinate={{
-                  latitude: attraction.latitude,
-                  longitude : attraction.longitude,
-                }}
-              >
-                <Callout tooltip onPress={()=>{handleNavigateToDetails(attraction.id)}}>
-                  <View style = {styles.calloutContainer}>
-                        <Text style = {styles.calloutText}>{attraction.name}</Text>
-                  </View>
-                </Callout>
-              </Marker>
-            );
-        })}
-        </MapView>
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>{attraction.length}</Text>
-          <RectButton style={styles.createAttractionButton} onPress={handleNavigateToCreateAttraction}>
-            <Feather name="plus" size={20} color="#111" />
-          </RectButton>
+        <View style={styles.container}>
+          <MapView
+          style={styles.map}
+          provider='google'
+          initialRegion={{
+            latitude: region?.latitude || 2.8246016 ,
+            longitude : region?.longitude || -60.6732288,
+            latitudeDelta : 0.008,
+            longitudeDelta : 0.008,
+          }}
+          >
+          {attraction.map(attraction =>{
+              return (
+                  <Marker
+                  key={attraction.id}
+                  icon={mapMarker}
+                  calloutAnchor={{
+                    x:2.7,
+                    y:0.8,
+                  }}
+                  coordinate={{
+                    latitude: attraction.latitude,
+                    longitude : attraction.longitude,
+                  }}
+                 
+                >
+                  <Callout tooltip onPress={()=>{handleNavigateToDetails(attraction.id)}}>
+                    <View style = {styles.calloutContainer}>
+                          <Text style = {styles.calloutText}>{attraction.name}</Text>
+                    </View>
+                  </Callout>
+                </Marker>
+              );
+          })}
+          </MapView>
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>{attraction.length}</Text>
+            <RectButton style={styles.createAttractionButton} onPress={handleNavigateToCreateAttraction}>
+              <Feather name="plus" size={20} color="#111" />
+            </RectButton>
+          </View>
         </View>
-      </View>
     );
 }
 
@@ -121,7 +144,7 @@ const styles = StyleSheet.create({
   
     map: {
       height : Dimensions.get('window').height,
-      width : Dimensions.get('window').width
+      width : Dimensions.get('window').width,
     },
   
     calloutContainer:{

@@ -12,7 +12,7 @@ export default function Login(){
 
   const [email , setEmail] = useState('');
   const [password , setPassword] = useState('');
-  const  navigation  = useNavigation();
+  const  navigation  = useNavigation() as any;
 
 
   async function handleLogin() {

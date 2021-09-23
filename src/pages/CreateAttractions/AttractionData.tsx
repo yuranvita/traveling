@@ -48,7 +48,7 @@ export default function AttractionData() {
   
   
   
-  const navigation = useNavigation();
+  const navigation = useNavigation() as any;
   const route = useRoute();
   const params = route.params as AttractionDataRouteParams;
 
@@ -59,9 +59,10 @@ export default function AttractionData() {
 
  async function handleCreateAttraction(){
 
+  const token = await AsyncStorage.getItem("my-Token");
   
- 
-  const user =   jwtDecode( token["_W"]) as user ;
+
+  const user =   jwtDecode(String(token)) as user;
   const user_id = user.sub;
   
    
@@ -118,7 +119,7 @@ export default function AttractionData() {
     try{
       await api.post('/attractions'  , data  , { 
         headers : {
-        "authorization" : "Bearer "+token["_W"]     
+        "authorization" : "Bearer "+token     
        }});
 
        navigation.navigate('AttractionsMap');

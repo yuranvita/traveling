@@ -2570,6 +2570,13 @@ babel-plugin-dynamic-import-node@^2.3.3:
   dependencies:
     object.assign "^4.1.0"
 
+babel-plugin-inline-dotenv@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-inline-dotenv/-/babel-plugin-inline-dotenv-1.6.0.tgz#ebb3ff358507d0e76e52ea8a53fe0b073d9e71b8"
+  integrity sha512-oWd5JmwfzdFN38PMBn35Ac1d+DKCkgIxKieEyWON3QTa4hCZV+VcTxaYkfQFMTwiqgCxe0a8o8NWyVjWwrrLXw==
+  dependencies:
+    dotenv "^8.2.0"
+
 babel-plugin-module-resolver@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-module-resolver/-/babel-plugin-module-resolver-3.2.0.tgz#ddfa5e301e3b9aa12d852a9979f18b37881ff5a7"
@@ -3308,6 +3315,11 @@ destroy@~1.0.4:
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.0.4.tgz#978857442c44749e4206613e37946205826abd80"
   integrity sha1-l4hXRCxEdJ5CBmE+N5RiBYJqvYA=
 
+dotenv@^8.2.0:
+  version "8.6.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.6.0.tgz#061af664d19f7f4d8fc6e4ff9b584ce237adcb8b"
+  integrity sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==
+
 ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
@@ -3565,6 +3577,14 @@ expo-keep-awake@~9.2.0:
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-9.2.0.tgz#9cbdcc8264c943ef29a58326236cd34267e98f43"
   integrity sha512-R5jAx5j3MqrhKFB307FBpaHtYSYeVIFX/rVforBF5inKonYjXRWVhjGoBjolF4geAryNamC3NKhMfxyaaB0W6Q==
 
+expo-location@^12.1.2:
+  version "12.1.2"
+  resolved "https://registry.yarnpkg.com/expo-location/-/expo-location-12.1.2.tgz#66641a087f1aa4231c9e49ea9d520438d3e35f33"
+  integrity sha512-6P/JR8xkw7UjifiDhyvgYtGZ1iKSLjmAcb0Ksirh3jA3Sao7dbz5ykPu44+UnUZ/SLVqaScJoyMkGclFrtzu8Q==
+  dependencies:
+    "@expo/config-plugins" "^3.0.0"
+    expo-modules-core "~0.2.0"
+
 expo-modules-autolinking@^0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/expo-modules-autolinking/-/expo-modules-autolinking-0.0.3.tgz#45ba8cb1798f9339347ae35e96e9cc70eafb3727"
@@ -3580,6 +3600,13 @@ expo-modules-core@~0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/expo-modules-core/-/expo-modules-core-0.2.0.tgz#68e5b6e53d0afbf8d131578831aed657589a2d42"
   integrity sha512-inpfZ5X/BaTtbj2wG9PA9AC0MN8VyId6KSRlVuEg7+ziurHBy/kKDFxpOddUokhwiln2uhoYPSStJjR/tKypdw==
+
+expo-permissions@~12.1.1:
+  version "12.1.1"
+  resolved "https://registry.yarnpkg.com/expo-permissions/-/expo-permissions-12.1.1.tgz#93fd8569d4106ff9dd66d67619cb69a0aa895482"
+  integrity sha512-fHBB4A/aWMcvdmDY79gpgQt0ufKG8F1gwTgO3+RjjudVe5kovNy5TeXdHrCa0MksFVKjktqLjJrgiBITJXjg+g==
+  dependencies:
+    expo-modules-core "~0.2.0"
 
 expo-status-bar@~1.0.4:
   version "1.0.4"

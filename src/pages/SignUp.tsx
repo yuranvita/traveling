@@ -10,7 +10,7 @@ import api from '../services/api';
 
 export default function SignUp(){
 
-  const navigation = useNavigation();
+  const navigation = useNavigation() as any;
   const [email , setEmail] = useState('');
   const [password , setPassword] = useState('');
   const [passwordConfirme , setPasswordConfirme] = useState('');

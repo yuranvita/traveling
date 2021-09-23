@@ -9,14 +9,16 @@ import mapMarkerImg from '../../images/map-marker.png';
 
 
 interface Position{
+  latitude : number ,
+  longitude : number
 }
 
 
 export default function SelectMapPosition() {
 
-  const navigation = useNavigation();
+  const navigation = useNavigation() as any;
 
-  const [position , setPosition] = useState({latitude : 0 , longitude :0 });
+  const [position , setPosition] = useState({latitude : 0 , longitude :0 } as Position);
 
 
   function handleSelectMapPosition(event : MapEvent){
@@ -30,6 +32,7 @@ export default function SelectMapPosition() {
   return (
     <View style={styles.container}>
       <MapView 
+        provider='google'
         initialRegion={{
           latitude: 2.821561,
           longitude: -60.674037,
